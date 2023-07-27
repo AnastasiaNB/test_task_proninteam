@@ -16,7 +16,8 @@ class TopFiveSerializer(serializers.ModelSerializer):
         return set([deal.item.gem_name for deal in obj.deals.all()])
 
     def get_spent_money(self, obj):
-        return Deal.objects.filter(customer=obj).aggregate(
+        spent_money = Deal.objects.filter(customer=obj).aggregate(
             Sum('total')
         )['total__sum']
+        return spent_money if spent_money else 0
 
