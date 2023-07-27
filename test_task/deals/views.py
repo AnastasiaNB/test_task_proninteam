@@ -58,5 +58,8 @@ class DealViewSet(DealMixin):
             data={'Status': 'OK'}
         )
 
-    # def list(self, request, *args, **kwargs):
-    #     return super().list(request, *args, **kwargs)
+    def list(self, request, *args, **kwargs):
+        
+        serializer = self.get_serializer(self.queryset, many=True)
+
+        return Response(serializer.data)
