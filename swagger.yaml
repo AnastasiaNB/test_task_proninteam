@@ -1,0 +1,109 @@
+openapi: 3.0.3
+info:
+  title: Test task ProninTeam
+  version: 1.0.0
+  description: Documentation for test task
+paths:
+  /api/deals/:
+    get:
+      operationId: api_deals_list
+      description: |-
+        GET-requests at api/deals/.
+        Getting top N customers. N may be changed in TOP_N variable.
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                    spent_money:
+                      type: integer
+                    gems:
+                      type: array
+                      items: 
+                        type: string
+          description: ''
+    post:
+      operationId: api_deals_create
+      description: |-
+        POST-requests at api/deals/.
+        Uploading deals.csv.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                deals:
+                    type: string
+                    format: binary
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Status:
+                      type: string
+                    Desc:
+                      type: string
+        '201':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Status:
+                      type: string
+components:
+  schemas:
+    TopN:
+      type: object
+      description: Serializer for top-n customers.
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        spent_money:
+          type: string
+          readOnly: true
+        gems:
+          type: string
+          readOnly: true
+      required:
+      - gems
+      - spent_money
+      - username
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
