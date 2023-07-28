@@ -60,9 +60,11 @@ class DealViewSet(DealMixin):
         thread = ReadCSV(os.path.join(MEDIA_ROOT, filename))
         thread.start()
         thread.join(timeout=2)
-        # Timeout 2 s is enough for handling and represent in response all axceptions in small files.
+        # Timeout 2 s is enough for handling and represent in response
+        # all exceptions in small files.
         # For bigger files (> 150 rows) all excpetions are still handled
-        # but User.DoesNotExist, Gem.DoesNotExist, ValueError will not be represented in response.
+        # but User.DoesNotExist, Gem.DoesNotExist, ValueError
+        # will not be represented in response.
         result = thread.result
         if result:
             return Response(
