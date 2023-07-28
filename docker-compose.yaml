@@ -14,15 +14,13 @@ services:
     image: redis:7
     container_name: redis
     ports:
-      - 6379:6379
+      - 6370:6379
 
   web_server:
     build: .
     command: bash -c "python3 ./test_task/manage.py migrate
-      && python3 ./test_task/manage.py collectstatic --noinput
+      && python3 ./test_task/manage.py loaddata ./test_task/db.json
       && python3 ./test_task/manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - web:src/data
     ports: 
       - "8000:8000" 
     restart: always

@@ -67,6 +67,7 @@ paths:
                       type: string
                     Desc:
                       type: string
+          description: ''
         '201':
           content:
             application/json:
@@ -77,6 +78,7 @@ paths:
                   properties:
                     Status:
                       type: string
+          description: ''
 components:
   schemas:
     TopN:

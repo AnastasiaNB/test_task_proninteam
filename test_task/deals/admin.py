@@ -1,6 +1,5 @@
+from deals.models import Deal, Gem
 from django.contrib import admin
-
-from deals.models import Gem, Deal
 
 
 @admin.register(Deal)

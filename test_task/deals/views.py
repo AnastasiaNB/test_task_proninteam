@@ -1,15 +1,15 @@
 import os
 from collections import Counter
 
-from django.core.files.storage import FileSystemStorage
 from django.core.cache import cache
+from django.core.files.storage import FileSystemStorage
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from rest_framework.viewsets import GenericViewSet
+from rest_framework import status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.viewsets import GenericViewSet
 
 from deals.models import User
 from deals.serializers import TopNSerializer
@@ -59,7 +59,7 @@ class DealViewSet(DealMixin):
         filename = fs.save(file.name, file)
         thread = ReadCSV(os.path.join(MEDIA_ROOT, filename))
         thread.start()
-        thread.join(timeout=2) 
+        thread.join(timeout=2)
         # Timeout 2 s is enough for handling and represent in response all axceptions in small files.
         # For bigger files (> 150 rows) all excpetions are still handled
         # but User.DoesNotExist, Gem.DoesNotExist, ValueError will not be represented in response.
@@ -79,6 +79,7 @@ class DealViewSet(DealMixin):
         """
         Leaving only popular gems in customer items.
         """
+
         all_gems = [gem for item in data for gem in item['gems']]
         counts = Counter(all_gems)
         popular_gems = set([gem for gem in all_gems if counts[gem] > 1])
@@ -93,6 +94,7 @@ class DealViewSet(DealMixin):
         GET-requests at api/deals/.
         Getting top N customers. N may be changed in TOP_N variable.
         """
+
         serializer = self.get_serializer(self.queryset, many=True)
         data = sorted(
             serializer.data,

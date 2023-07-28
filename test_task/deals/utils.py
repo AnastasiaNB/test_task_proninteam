@@ -1,14 +1,16 @@
 import csv
 import threading
+
 from dateutil.parser import parse
 
-from deals.models import Deal, User, Gem
+from deals.models import Deal, Gem, User
 
 
 class ReadCSV(threading.Thread):
     """
     Uploading data from deals.csv to database.
     """
+
     result = None
 
     def __init__(self, path):
