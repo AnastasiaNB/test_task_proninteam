@@ -4,7 +4,10 @@ from rest_framework import serializers
 from deals.models import Deal, User
 
 
-class TopFiveSerializer(serializers.ModelSerializer):
+class TopNSerializer(serializers.ModelSerializer):
+    """
+    Serializer for top-n customers.
+    """
     spent_money = serializers.SerializerMethodField()
     gems = serializers.SerializerMethodField()
 

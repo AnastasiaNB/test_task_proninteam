@@ -6,6 +6,11 @@ from deals.models import Deal, User, Gem
 
 
 class ReadCSV(threading.Thread):
+    """
+    Uploading data from deals.csv to database.
+    """
+    result = None
+
     def __init__(self, path):
         super(ReadCSV, self).__init__()
         self.path = path
@@ -35,8 +40,8 @@ class ReadCSV(threading.Thread):
                         date=parse(date)
                     )
             except (Gem.DoesNotExist, User.DoesNotExist, ValueError) as error:
-                return str(error)
+                self.result = str(error)
             except IndexError:
-                return 'Only (customer,item,total,quantity,date) data available'
-            except UnicodeDecodeError:
-                return 'Only UTF-8 encoding available'
+                self.result = 'Only (customer,item,total,quantity,date) data available'
+            except (UnicodeDecodeError):
+                self.result = 'Only UTF-8 encoding available'

@@ -3,6 +3,9 @@ from django.db import models
 
 
 class Gem(models.Model):
+    """
+    Gem model
+    """
     gem_name = models.CharField(
         max_length=30,
         verbose_name='Название камня'
@@ -10,6 +13,9 @@ class Gem(models.Model):
 
 
 class Deal(models.Model):
+    """
+    Deal model
+    """
     customer = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
